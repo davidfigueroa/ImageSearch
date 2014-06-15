@@ -3,6 +3,8 @@ package com.example.imagesearch;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -11,9 +13,10 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	EditText edSearchString;
-	GridView gvImages;
-	ImageInfoArrayAdapter adapter;
+	private static final int ShowSettingRequestCode = 1;	
+	private EditText edSearchString;
+	private ImageInfoArrayAdapter adapter;
+	private SettingData settings;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +26,7 @@ public class MainActivity extends Activity {
 		edSearchString = (EditText)findViewById(R.id.etSearchString);
 		
 		//image view
-		gvImages = (GridView)findViewById(R.id.gvImages);
+		GridView gvImages = (GridView)findViewById(R.id.gvImages);
 		adapter = new ImageInfoArrayAdapter(this);
 		gvImages.setAdapter(adapter);
 		gvImages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -68,5 +71,27 @@ public class MainActivity extends Activity {
 		Intent i = new Intent(this, ImageDisplayActivity.class);
 		i.putExtra(ImageDisplayActivity.ImageUrl, imageInfo.getUrl());
 		startActivity(i);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+	
+	public void onShowSettingsClick(MenuItem mi) {
+		Intent i = new Intent(this, SettingsActivity.class);
+		i.putExtra(SettingsActivity.SettingDataKeyName, this.settings);
+		startActivityForResult(i, ShowSettingRequestCode);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == ShowSettingRequestCode && resultCode == RESULT_OK) {
+			this.settings = (SettingData) data.getSerializableExtra(SettingsActivity.SettingDataKeyName);
+			if (edSearchString.getText().length() > 0) {
+				search();
+			}
+		}
 	}
 }
