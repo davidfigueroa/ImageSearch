@@ -1,8 +1,10 @@
 package com.example.imagesearch;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -24,6 +26,12 @@ public class MainActivity extends Activity {
 		gvImages = (GridView)findViewById(R.id.gvImages);
 		adapter = new ImageInfoArrayAdapter(this);
 		gvImages.setAdapter(adapter);
+		gvImages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				onImageClick(position);
+			}
+		});
 		
 		//bSearch click
 		Button bSearch = (Button)findViewById(R.id.bSearch);
@@ -53,5 +61,12 @@ public class MainActivity extends Activity {
 				error.printStackTrace();
 			}
 		});
+	}
+
+	private void onImageClick(int position) {
+		ImageInfo imageInfo = adapter.getItem(position);
+		Intent i = new Intent(this, ImageDisplayActivity.class);
+		i.putExtra(ImageDisplayActivity.ImageUrl, imageInfo.getUrl());
+		startActivity(i);
 	}
 }

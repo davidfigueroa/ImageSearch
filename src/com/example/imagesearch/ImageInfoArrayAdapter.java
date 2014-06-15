@@ -17,13 +17,16 @@ public class ImageInfoArrayAdapter extends ArrayAdapter<ImageInfo> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ImageInfo imageInfo = getItem(position);
 		
+		SmartImageView ivImage;
 		if (convertView == null) {
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.image_item, parent, false);
+			ivImage = (SmartImageView) LayoutInflater.from(getContext()).inflate(R.layout.image_item, parent, false);
+		} else {
+			ivImage = (SmartImageView) convertView; 	
+			ivImage.setImageResource(android.R.color.transparent);
 		}
 		
-		SmartImageView ivImage = (SmartImageView)convertView; 	
 		ivImage.setImageUrl(imageInfo.getThumbnailUrl());
 		
-		return convertView;
+		return ivImage;
 	}
 }
