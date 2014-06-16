@@ -7,7 +7,7 @@ public class SettingData implements Serializable {
 	private ImageSize imageSize;
 	private ColorFilter colorFilter;
 	private ImageType imageType;
-	private String site;	
+	private String siteFilter;	
 	
 	public ImageSize getImageSize() {
 		return imageSize;
@@ -33,12 +33,15 @@ public class SettingData implements Serializable {
 		this.imageType = imageType;
 	}
 
-	public String getSite() {
-		return site;
+	public String getSiteFilter() {
+		return siteFilter;
 	}
 
-	public void setSite(String site) {
-		this.site = site;
+	public void setSite(String siteFilter) {
+		if (siteFilter != null && siteFilter.length() == 0) {
+			siteFilter = null;
+		}
+		this.siteFilter = siteFilter;
 	}
 
 	public SettingData() {

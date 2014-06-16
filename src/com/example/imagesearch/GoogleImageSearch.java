@@ -20,7 +20,7 @@ public class GoogleImageSearch {
 	      params.add("v", "1.0");
 	      params.add("rsz", "8");
 	      params.add("start", String.valueOf(start));
-	      params.add("safe", "active");
+	      //params.add("safe", "active");
 	      params.add("q", queryString);
 
 	      if (settings.getColorFilter() != ColorFilter.none) {
@@ -32,8 +32,8 @@ public class GoogleImageSearch {
 	      if (settings.getImageType() != ImageType.any) {
 	    	  params.add("imgtype", settings.getImageType().toString());
 	      }
-	      if (settings.getSite() != null) {
-	    	  params.add("as_sitesearch", settings.getSite());
+	      if (settings.getSiteFilter() != null) {
+	    	  params.add("as_sitesearch", settings.getSiteFilter());
 	      }
 	      
 	      client.get(BASE_URL, params, new JsonHttpResponseHandler() {

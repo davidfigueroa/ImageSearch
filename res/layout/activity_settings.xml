@@ -45,4 +45,20 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/spinImageType"
         android:text="@string/image_type_label" />
+    
+    <EditText
+        android:id="@+id/etSite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinImageType"
+        android:layout_toRightOf="@+id/textView4" 
+        android:inputType="textUri"
+        android:hint="@string/site_filter_hint"/>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/etSite"
+        android:text="@string/site_filter_label" />
 </RelativeLayout>
