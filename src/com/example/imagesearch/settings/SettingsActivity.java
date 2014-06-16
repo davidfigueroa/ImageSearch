@@ -1,4 +1,8 @@
-package com.example.imagesearch;
+package com.example.imagesearch.settings;
+
+import com.example.imagesearch.R;
+import com.example.imagesearch.R.layout;
+import com.example.imagesearch.R.menu;
 
 import android.app.Activity;
 import android.content.Intent;

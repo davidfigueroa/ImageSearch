@@ -29,7 +29,7 @@
             android:label="@string/title_activity_image_display" >
         </activity>
         <activity
-            android:name="com.example.imagesearch.SettingsActivity"
+            android:name="com.example.imagesearch.settings.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
     </application>

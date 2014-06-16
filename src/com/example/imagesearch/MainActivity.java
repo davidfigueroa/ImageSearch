@@ -1,5 +1,8 @@
 package com.example.imagesearch;
 
+import com.example.imagesearch.settings.SettingData;
+import com.example.imagesearch.settings.SettingsActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +26,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		settings = new SettingData();
 		edSearchString = (EditText)findViewById(R.id.etSearchString);
 		
 		//image view
@@ -52,7 +56,7 @@ public class MainActivity extends Activity {
 			return;
 		}
 		
-		GoogleImageSearch.getImages(edSearchString.getText().toString(), 0, new GoogleImageSearch.ResponseHandler() {
+		GoogleImageSearch.getImages(edSearchString.getText().toString(), 0, this.settings, new GoogleImageSearch.ResponseHandler() {
 			@Override
 			public void onSuccess(ImageInfo[] images) {
 				adapter.clear();
