@@ -1,8 +1,5 @@
 package com.example.imagesearch;
 
-import com.example.imagesearch.settings.SettingData;
-import com.example.imagesearch.settings.SettingsActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
+
+import com.example.imagesearch.settings.SettingData;
+import com.example.imagesearch.settings.SettingsActivity;
 
 public class MainActivity extends Activity {
 	private static final int ShowSettingRequestCode = 1;	
@@ -39,27 +39,35 @@ public class MainActivity extends Activity {
 				onImageClick(position);
 			}
 		});
+		gvImages.setOnScrollListener(new EndlessScrollListener() {
+			@Override
+			public void onLoadMore(int page, int totalItemsCount) {
+				search(totalItemsCount + 1);
+			}
+		});
 		
 		//bSearch click
 		Button bSearch = (Button)findViewById(R.id.bSearch);
 		bSearch.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				search();
+				search(0);
 			}
 		});
 	}
 
-	private void search() {
+	private void search(int startIndex) {
+		if (startIndex == 0) {
+			adapter.clear();
+		}
 		if (edSearchString.getText().length() == 0) {
 			Toast.makeText(this, getString(R.string.search_hint), Toast.LENGTH_SHORT).show();
 			return;
 		}
 		
-		GoogleImageSearch.getImages(edSearchString.getText().toString(), 0, this.settings, new GoogleImageSearch.ResponseHandler() {
+		GoogleImageSearch.getImages(edSearchString.getText().toString(), startIndex, this.settings, new GoogleImageSearch.ResponseHandler() {
 			@Override
 			public void onSuccess(ImageInfo[] images) {
-				adapter.clear();
 				adapter.addAll(images);				
 			}
 			@Override
@@ -94,7 +102,7 @@ public class MainActivity extends Activity {
 		if (requestCode == ShowSettingRequestCode && resultCode == RESULT_OK) {
 			this.settings = (SettingData) data.getSerializableExtra(SettingsActivity.SettingDataKeyName);
 			if (edSearchString.getText().length() > 0) {
-				search();
+				search(0);
 			}
 		}
 	}

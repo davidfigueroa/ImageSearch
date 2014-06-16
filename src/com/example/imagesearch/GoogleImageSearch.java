@@ -39,14 +39,16 @@ public class GoogleImageSearch {
 	      client.get(BASE_URL, params, new JsonHttpResponseHandler() {
 	    	  public void onSuccess(JSONObject json) {
 	    		try {
-	    			JSONArray results = json.getJSONObject("responseData").getJSONArray("results");
-	    			ImageInfo[] ret = new ImageInfo[results.length()];
-	    			for (int i = 0; i < results.length(); i++) {
-	    				JSONObject o = (JSONObject) results.get(i);
-	    				ImageInfo im = new ImageInfo(o.getString("url"), o.getString("tbUrl"));
-	    				ret[i] = im;
+	    			if (!json.isNull("responseData")) {
+	    				JSONArray results = json.getJSONObject("responseData").getJSONArray("results");
+	    				ImageInfo[] ret = new ImageInfo[results.length()];
+		    			for (int i = 0; i < results.length(); i++) {
+		    				JSONObject o = (JSONObject) results.get(i);
+		    				ImageInfo im = new ImageInfo(o.getString("url"), o.getString("tbUrl"));
+		    				ret[i] = im;
+		    			}
+	    				responseHandler.onSuccess(ret);
 	    			}
-	    			responseHandler.onSuccess(ret);
 				} catch (Exception e) {
 					responseHandler.onError(e);
 				}
